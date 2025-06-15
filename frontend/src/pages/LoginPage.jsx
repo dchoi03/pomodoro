@@ -6,7 +6,6 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 function LoginPage() {
 
   const navigate = useNavigate();
-  const [session, setSession] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -14,7 +13,7 @@ function LoginPage() {
     e.preventDefault()
     try {
       const data = await signIn({ email, password })
-      console.log("Logged in", data.user)
+      localStorage.setItem('access_token', data.access_token)
       navigate('/home')
     } catch (err) {
       alert('Login Failed' + err.message)
