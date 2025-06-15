@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'flowbite-react'
+import { logSession } from '../api/sessions'
 
 function PomodoroTimer() {
 
-  const [time, setTime] = useState(1500000)
+  const [time, setTime] = useState(1000)
   const [isBreak, setIsBreak] = useState(false)
   const [isRunning, setIsRunning] = useState(false)
   const [studyIntervals, setStudyIntervals] = useState(0)
+  const [startTime, setStartTime] = useState(null)
 
   useEffect(() => {
     if (!isRunning || time <= 0) return;
@@ -20,6 +22,17 @@ function PomodoroTimer() {
 
   useEffect(()=> {
     if (time > 0) return;
+    
+    const endTime = Date.now()
+    const duration = endTime - startTime
+    const token = localStorage.getItem('access_token')
+    console.log("this is the token of user", token)
+
+    if(token && startTime) {
+      logSession({ token, duration })
+      .then(() => console.log("session logged"))
+      .catch((err) => console.error("Failed to log sessions", err))
+    }
 
     setIsRunning(false)
 
@@ -40,10 +53,8 @@ function PomodoroTimer() {
       } else {
         setTime(300000); // short break
       }
-      setIsRunning(true); // start the break
     } else if (time === 0 && !isBreak) {
       setTime(1500000); // next focus session
-      setIsRunning(true);
     }
   }, [isBreak]);
 
@@ -60,6 +71,9 @@ function PomodoroTimer() {
   }
 
   const handleTimer = () => {
+    if(!isRunning) {
+      setStartTime(Date.now())
+    }
     setIsRunning((prev) => !prev)
   }
 

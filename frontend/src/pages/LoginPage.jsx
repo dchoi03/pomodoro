@@ -14,6 +14,7 @@ function LoginPage() {
     try {
       const data = await signIn({ email, password })
       localStorage.setItem('access_token', data.access_token)
+      // console.log(data.access_token)
       navigate('/home')
     } catch (err) {
       alert('Login Failed' + err.message)
