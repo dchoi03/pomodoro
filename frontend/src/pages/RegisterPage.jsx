@@ -6,6 +6,7 @@ import { signUp } from '../api/auth';
 
 function RegisterPage() {
 
+  const BASE_URL = import.meta.env.VITE_API_URL
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
@@ -21,7 +22,7 @@ function RegisterPage() {
       console.log("Password did not match try again")
     } else {
         try {
-          const result = await fetch('http://localhost:8000/auth/register', {
+          const result = await fetch(`${BASE_URL}/auth/register`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -33,8 +34,18 @@ function RegisterPage() {
               name
             })
           })
-          console.log("This is the result", result)
-          // navigate('/home');
+          if (!result.ok) {
+            const error = await result.json();
+            throw new Error(error.detail || 'Something went wrong');
+          } else {
+            const user = await result.json()
+            console.log("Registerd user!", user)
+            localStorage.setItem('user', JSON.stringify(user))
+            navigate('/home')
+            // console.log(user.id)
+            // console.log(user.email)
+            // console.log(user.created_at)
+          }
         } catch (err) {
         console.log(err.message)
       }
