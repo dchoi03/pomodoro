@@ -71,24 +71,31 @@ function PomodoroTimer() {
   }
 
   return (
-    <div>
-      <div className='text-white text-4xl'>
-        {formattedTime(time)}
-        <Button onClick={handleTimer}>
+    <div className='text-white text-7xl flex flex-col items-center my-8'>
+      <div className='text-white text-5xl mb-6'>
+        Sessions: {studyIntervals}
+      </div>
+      {formattedTime(time)}
+      <div className=' flex flex-row m-4'>
+        <Button
+          onClick={handleTimer}
+          className={`mt-4 mr-3 px-4 w-36 font-semibold text-white transition-colors duration-300 ${
+            isRunning ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
+          }`}
+        >
           {
-          (!isRunning && time == 1500000) ? 'Start'
-          : 
-          (isRunning ? 'Pause' : 'Resume')
+            (!isRunning && time === 1500000) ? 'Start'
+            : (isRunning ? 'Pause' : 'Resume')
           }
         </Button>
+
         {
-          (time != 1500000) ?
-          <Button onClick={resetTimer}>Reset</Button>
+          (isRunning || time != 1500000) ?
+          <Button className="w-36 bg-gray-500 font-semibold text-white px-4 py-4 mt-4 hover:bg-gray-600 duration-300" onClick={resetTimer}>
+            Reset
+          </Button>
           : null
         }
-      </div>
-      <div className='text-white'>
-        {studyIntervals}
       </div>
     </div>
   )
