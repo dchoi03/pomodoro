@@ -5,6 +5,7 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 
 function LoginPage() {
 
+  const BASE_URL = import.meta.env.VITE_API_URL
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -12,10 +13,24 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      const data = await signIn({ email, password })
-      localStorage.setItem('access_token', data.access_token)
-      // console.log(data.access_token)
-      navigate('/home')
+      const result = await fetch(`${BASE_URL}/auth/token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          "username": email,
+          "password": password
+        })
+      })
+      if (!result) {
+        const err = await result.json()
+        throw new Error(err.detail || 'Something went wrong');
+      } else {
+        const res = await result.json()
+        const token = res.access_token;
+        console.log(token)
+        localStorage.setItem('access_token', JSON.stringify(token))
+        navigate('/home')
+      }
     } catch (err) {
       alert('Login Failed' + err.message)
     }
