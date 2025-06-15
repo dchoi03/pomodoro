@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { signUp } from '../api/auth';
 
-
-
 function RegisterPage() {
 
   const navigate = useNavigate();
@@ -16,23 +14,30 @@ function RegisterPage() {
   const [name, setName] = useState('')
   const [agreed, setAgreed] = useState(false)
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault() // Stops the page from reloading
 
     if ((password != confirmPassword) || !agreed) {
       console.log("Password did not match try again")
     } else {
-      signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username,
-            name
-          }
-        }
-      })
-      navigate('/home');
+        try {
+          const result = await fetch('http://localhost:8000/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email,
+              username,
+              password,
+              name
+            })
+          })
+          console.log("This is the result", result)
+          // navigate('/home');
+        } catch (err) {
+        console.log(err.message)
+      }
     }
   }
   

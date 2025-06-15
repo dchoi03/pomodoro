@@ -26,7 +26,6 @@ function PomodoroTimer() {
     const endTime = Date.now()
     const duration = endTime - startTime
     const token = localStorage.getItem('access_token')
-    console.log("this is the token of user", token)
 
     if(token && startTime) {
       logSession({ token, duration })
@@ -57,8 +56,6 @@ function PomodoroTimer() {
       setTime(1500000); // next focus session
     }
   }, [isBreak]);
-
-
 
   const formattedTime = (milliseconds) => {
     let total_secs = parseInt(Math.floor(milliseconds/1000))

@@ -35,7 +35,7 @@ export async function getSomeSessions({ token, limit }) {
     .select('*')
     .eq('user_id', user.id)
     .order('duration', { ascending: false })
-    .limit(N)
+    .limit(limit)
   
   if (topSessionsError) {
     throw new Error(topSessionsError.message);
