@@ -37,8 +37,12 @@ function RegisterPage() {
   }
   
   return (
+    <>
+    <div className='m-4'>
+      <Link to='/' className='text-white'>Go back</Link>
+    </div>
     <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className='text-white text-4xl font-bold p-4 mb-10'>
+        <h1 className='text-white text-4xl font-bold p-4 mb-8'>
           Register a new account
         </h1>
         <div className="w-1/2 flex justify-center mt-[33vh]">
@@ -122,16 +126,17 @@ function RegisterPage() {
             />
             <Label htmlFor="agree" className="flex">
               I agree with the&nbsp;
-              <Link href="#" className="text-cyan-600 hover:underline dark:text-cyan-500">
+              <Link href="#" className="text-blue-400 hover:underline dark:text-cyan-500">
                 terms and conditions
               </Link>
             </Label>
           </div>
 
-          <Button className="bg-blue-700 rounded-full font-bold text-white p-4 mt-5" type="submit">Register new account</Button>
+          <Button className="bg-blue-700 rounded-full font-bold text-white p-4 mt-5 hover:bg-blue-900" type="submit">Register new account</Button>
         </form>
       </div>
     </div>
+    </>
   );
 }
 
