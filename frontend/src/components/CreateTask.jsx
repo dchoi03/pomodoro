@@ -1,27 +1,38 @@
 import { useState } from 'react'
 import { Button, Checkbox, Label, Modal, ModalBody, ModalHeader, TextInput } from "flowbite-react";
 
-function CreateTask() {
+function CreateTask({ setTasks }) {
 
   const [openModal, setOpenModal] = useState(false);
-  const [task, setTask] = useState('');
-  const [pomodoros, setPomodoros] = useState(0)
-  const [session, setSession] = useState(null)
+  const [taskName, setTaskName] = useState('');
+  const [pomodoros, setPomodoros] = useState(1)
 
   function onCloseModal() {
     setOpenModal(false);
-    setTask('');
+    setTaskName('');
+    setPomodoros('')
   }
 
   const handleSession = () => {
-    const session = {
-      "task": task,
-      "pomodoros": pomodoros
+    const newTask = {
+      task: taskName,
+      pomodoros: pomodoros,
+      duration: calculateDuration(pomodoros), // or keep Date.now() if you prefer
+    };
+    setTasks(prev => [...prev, newTask]);
+    onCloseModal(); // Close the modal
+  };
+
+  const calculateDuration = (pomodoros) => {
+    const totalMinutes = pomodoros * 25 + pomodoros*5;
+
+    if (totalMinutes < 60) {
+      return `${totalMinutes} mins`;
+    } else {
+      const hours = (totalMinutes / 60).toFixed(1); // 1 decimal place
+      return `${hours} hrs`;
     }
-    setSession(session)
-    console.log(session)
-    onCloseModal();
-  }
+  };
 
   return (
     <>
@@ -38,8 +49,8 @@ function CreateTask() {
               <TextInput
                 id="text"
                 placeholder="Enter Task here"
-                value={task}
-                onChange={(e) => setTask(e.target.value)}
+                value={taskName}
+                onChange={(e) => setTaskName(e.target.value)}
                 required
               />
             </div>

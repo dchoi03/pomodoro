@@ -2,8 +2,12 @@ import React from 'react'
 import PomodoroTimer from '../components/PomodoroTimer'
 import SessionsTable from '../components/SessionsTable'
 import CreateTask from '../components/CreateTask'
+import { useState } from 'react'
 
 function HomePage() {
+
+  const [tasks, setTasks] = useState([]);
+
   return (
     <div className='flex items-center flex-col h-screen'>
       <h1 className='text-white text-6xl font-bold mt-8'>
@@ -14,10 +18,10 @@ function HomePage() {
         <PomodoroTimer/>
       </div>
       <div>
-        <CreateTask/>
+        <CreateTask setTasks={setTasks}/>
       </div>
       <div className='mt-6 w-1/2'>
-        <SessionsTable/>
+        <SessionsTable tasks={tasks}/>
       </div>
     </div>
   )

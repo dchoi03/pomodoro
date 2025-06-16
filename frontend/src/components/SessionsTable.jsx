@@ -1,91 +1,40 @@
 import { useState, useEffect } from 'react'
-import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
+import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Checkbox } from "flowbite-react";
 
-function SessionsTable() {
+function SessionsTable({ tasks }) {
 
   const BASE_URL = import.meta.env.VITE_API_URL
-  const [allSessions, setAllSessions] = useState([]);
-
-  // useEffect(() => {
-  //   const getAllSessions = async () => {
-  //     try {
-  //       const accessToken = JSON.parse(localStorage.getItem('access_token'));
-  //       console.log(accessToken)
-  //       const response = await fetch(`${BASE_URL}/sessions/`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': `Bearer ${accessToken}`
-  //         }
-  //       });
-
-  //       if (!response.ok) {
-  //         const err = await response.json();
-  //         throw new Error(err.detail || 'Something went wrong');
-  //       }
-
-  //       const result = await response.json();
-  //       console.log(result);
-  //     } catch (err) {
-  //       console.error("Error fetching sessions:", err.message);
-  //     }
-  //   };
-
-  //   getAllSessions();
-  // }, []);
   
   return (
-    <div className="overflow-x-auto">
-      <Table>
+    <div className="overflow-hidden rounded-xl shadow-lg bg-gray-400 w-full max-w-4xl mx-auto">
+      <Table className='table-auto w-full text-center bg-gray-600'>
         <TableHead>
-          <TableRow>
-            <TableHeadCell>Product name</TableHeadCell>
-            <TableHeadCell>Color</TableHeadCell>
-            <TableHeadCell>Category</TableHeadCell>
-            <TableHeadCell>Price</TableHeadCell>
-            <TableHeadCell>
-              <span className="sr-only">Edit</span>
-            </TableHeadCell>
+          <TableRow className="text-center align-middle text-lg">
+            <TableHeadCell>Task</TableHeadCell>
+            <TableHeadCell>Pomodoros</TableHeadCell>
+            <TableHeadCell>Total Duration</TableHeadCell>
+            <TableHeadCell>Completed</TableHeadCell>
           </TableRow>
         </TableHead>
         <TableBody className="divide-y">
-          <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              Apple MacBook Pro 17"
-            </TableCell>
-            <TableCell>Sliver</TableCell>
-            <TableCell>Laptop</TableCell>
-            <TableCell>$2999</TableCell>
-            <TableCell>
-              <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Edit
-              </a>
-            </TableCell>
-          </TableRow>
-          <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              Microsoft Surface Pro
-            </TableCell>
-            <TableCell>White</TableCell>
-            <TableCell>Laptop PC</TableCell>
-            <TableCell>$1999</TableCell>
-            <TableCell>
-              <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Edit
-              </a>
-            </TableCell>
-          </TableRow>
-          <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">Magic Mouse 2</TableCell>
-            <TableCell>Black</TableCell>
-            <TableCell>Accessories</TableCell>
-            <TableCell>$99</TableCell>
-            <TableCell>
-              <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
-                Edit
-              </a>
-            </TableCell>
-          </TableRow>
+          {
+            tasks.length > 0 ? (
+              tasks.map((task,index) => (
+                <TableRow key={index} className="text-center align-middle">
+                  <TableCell>{task.task}</TableCell>
+                  <TableCell>{task.pomodoros}</TableCell>
+                  <TableCell>{task.duration}</TableCell>
+                  <TableCell><Checkbox/></TableCell>
+              </TableRow>
+              ))
+            ) : (
+             <TableRow>
+              <TableCell colSpan={4} className="text-center py-4 text-gray-400 text-lg">
+                No tasks found
+              </TableCell>
+            </TableRow>
+            )
+          }
         </TableBody>
       </Table>
     </div>
