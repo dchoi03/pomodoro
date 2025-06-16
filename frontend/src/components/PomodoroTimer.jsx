@@ -90,7 +90,7 @@ function PomodoroTimer() {
       <div className=' flex flex-row m-4'>
         <Button
           onClick={handleTimer}
-          className={`mt-4 mr-3 px-4 w-36 font-semibold text-white transition-colors duration-300 ${
+          className={`mt-4 mr-3 px-4 w-36 font-semibold text-white transition-colors duration-100 ${
             isRunning ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
           }`}
         >
@@ -102,7 +102,7 @@ function PomodoroTimer() {
 
         {
           (isRunning || time != 1500000) ?
-          <Button className="w-36 bg-gray-500 font-semibold text-white px-4 py-4 mt-4 hover:bg-gray-600 duration-300" onClick={resetTimer}>
+          <Button className="w-36 bg-gray-500 font-semibold text-white px-4 py-4 mt-4 hover:bg-gray-600 duration-100" onClick={resetTimer}>
             Reset
           </Button>
           : null

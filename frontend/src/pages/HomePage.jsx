@@ -1,5 +1,7 @@
 import React from 'react'
 import PomodoroTimer from '../components/PomodoroTimer'
+import SessionsTable from '../components/SessionsTable'
+import CreateTask from '../components/CreateTask'
 
 function HomePage() {
   return (
@@ -8,8 +10,14 @@ function HomePage() {
         Pomodoro Timer
       </h1>
       <h2 className='flex items-center justify-center text-white text-xl font-bold my-8'>Time to Focus!</h2>
-      <div className="bg-gray-700 w-full max-w-xl justify-center items-center rounded-lg">
+      <div className="bg-gray-700 w-full max-w-xl justify-center items-center rounded-lg mb-8">
         <PomodoroTimer/>
+      </div>
+      <div>
+        <CreateTask/>
+      </div>
+      <div className='mt-6 w-1/2'>
+        <SessionsTable/>
       </div>
     </div>
   )
