@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'flowbite-react'
-import { logSession } from '../api/sessions'
 
 function PomodoroTimer() {
 

@@ -2,7 +2,6 @@ import { Button, Checkbox, TextInput, Label } from 'flowbite-react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { signUp } from '../api/auth';
 
 function RegisterPage() {
 

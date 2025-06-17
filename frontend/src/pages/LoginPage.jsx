@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { signIn } from '../api/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 
@@ -26,8 +25,9 @@ function LoginPage() {
         throw new Error(err.detail || 'Something went wrong');
       } else {
         const res = await result.json()
+        // console.log(res)
         const token = res.access_token;
-        console.log(token)
+        // console.log(token)
         localStorage.setItem('access_token', JSON.stringify(token))
         navigate('/home')
       }
