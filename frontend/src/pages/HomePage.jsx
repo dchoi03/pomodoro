@@ -9,28 +9,6 @@ function HomePage() {
 
   const BASE_URL = import.meta.env.VITE_API_URL
   const [userId,setUserId] = useState(null)
-
-  useEffect(() => {
-    try {
-      const token = JSON.parse(localStorage.getItem('access_token'))
-      console.log("Home." , token)
-      console.log(`Calling: ${BASE_URL}/auth/me`)
-      const fetchUserId = async () => {
-        const result = await fetch(`${BASE_URL}/auth/me`, {
-          method: 'GET',
-          headers: {'Authorization': `Bearer ${token}`}
-        })
-        if (result.ok) {
-          const res = await result.json()
-          console.log(res.id)
-        }
-      }
-      fetchUserId();
-    } catch (error) {
-      console.error(error.message)
-    }
-  },[]);
-
   const [tasks, setTasks] = useState([]);
 
   return (

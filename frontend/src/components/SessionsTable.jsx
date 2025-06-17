@@ -4,6 +4,27 @@ import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Checkb
 function SessionsTable({ tasks }) {
 
   const BASE_URL = import.meta.env.VITE_API_URL
+
+  useEffect(() => {
+    try {
+      const token = JSON.parse(localStorage.getItem('access_token'))
+      console.log("Home." , token)
+      console.log(`Calling: ${BASE_URL}/auth/me`)
+      const fetchUserId = async () => {
+        const result = await fetch(`${BASE_URL}/auth/me`, {
+          method: 'GET',
+          headers: {'Authorization': `Bearer ${token}`}
+        })
+        if (result.ok) {
+          const res = await result.json()
+          console.log(res.id)
+        }
+      }
+      fetchUserId();
+    } catch (error) {
+      console.error(error.message)
+    }
+  },[]);
   
   return (
     <div className="overflow-hidden rounded-xl shadow-lg bg-gray-400 w-full max-w-4xl mx-auto">
@@ -21,8 +42,8 @@ function SessionsTable({ tasks }) {
             tasks.length > 0 ? (
               tasks.map((task,index) => (
                 <TableRow key={index} className="text-center align-middle">
-                  <TableCell>{task.task}</TableCell>
-                  <TableCell>{task.pomodoros}</TableCell>
+                  <TableCell>{task.task_name}</TableCell>
+                  <TableCell>{task.estimated_pomodoros}</TableCell>
                   <TableCell>{task.duration}</TableCell>
                   <TableCell><Checkbox/></TableCell>
               </TableRow>

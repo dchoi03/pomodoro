@@ -3,6 +3,7 @@ import { Button, Checkbox, Label, Modal, ModalBody, ModalHeader, TextInput } fro
 
 function CreateTask({ setTasks }) {
 
+  const BASE_URL = import.meta.env.VITE_API_URL
   const [openModal, setOpenModal] = useState(false);
   const [taskName, setTaskName] = useState('');
   const [pomodoros, setPomodoros] = useState(1)
@@ -13,12 +14,31 @@ function CreateTask({ setTasks }) {
     setPomodoros('')
   }
 
-  const handleSession = () => {
+  const handleSession =  async () => {
     const newTask = {
-      task: taskName,
-      pomodoros: pomodoros,
+      task_name: taskName,
+      estimated_pomodoros: pomodoros,
       duration: calculateDuration(pomodoros), // or keep Date.now() if you prefer
     };
+
+    const token = JSON.parse(localStorage.getItem('access_token'))
+    console.log(token)
+    // console.log(BASE_URL)
+
+    const result = await fetch(`${BASE_URL}/tasks`,{
+      method: 'POST',
+      headers: {
+        'Authorization' : `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newTask)
+    })
+
+    if (!result.ok) {
+      const error = await result.json()
+      throw new Error(error.detail)
+    }
+    
     setTasks(prev => [...prev, newTask]);
     onCloseModal(); // Close the modal
   };
