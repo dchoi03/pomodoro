@@ -22,7 +22,7 @@ function HomePage() {
         })
         if (result.ok) {
           const res = await result.json()
-          console.log(res)
+          console.log(res.id)
         }
       }
       fetchUserId();
