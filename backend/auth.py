@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from models import UserCreate, UserRead, Token
 import crud
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 # create a router that will live under /auth
 router = APIRouter(
@@ -22,3 +24,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     Log in and get a bearer token.
     """
     return crud.authenticate_user(form_data.username, form_data.password)
+
+@router.get("/me", response_model=UserRead)
+def who_am_i(current_user: dict = Depends(crud.get_current_user)):
+  return current_user

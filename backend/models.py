@@ -20,12 +20,15 @@ class UserRead(BaseModel):
 
 # What the client sends to log in a session
 class SessionCreate(BaseModel):
-  duration: int # Seconds
+  task_name: str
+  pomodoros: int # No. of Sessions
   
 class SessionRead(BaseModel):
   id: str
   user_id: str 
-  duration: int
+  task_name: str
+  pomodoros: int
+  duration: str
   inserted_at: datetime
   
   class Config:
@@ -38,6 +41,9 @@ class SessionsList(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+class TokenWithUser(Token):
+  user: UserRead
 
 class TokenData(BaseModel):
     user_id: Optional[str] = None

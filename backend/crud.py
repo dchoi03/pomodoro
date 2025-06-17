@@ -1,7 +1,11 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from gotrue.errors import AuthApiError
 from supabase_client import supabase
 from typing import List
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 def create_user(user_data: dict) -> dict:
     """
@@ -59,7 +63,7 @@ def authenticate_user(email: str, password: str) -> dict:
     }
 
 
-def get_current_user(token: str) -> dict:
+def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
     """
     1. Call supabase.auth.get_user(token)
     2. Catch AuthApiError and raise HTTPException(401, ...)
@@ -131,7 +135,7 @@ def get_sessions(user_id: str) -> List[dict]:
     return result.data
 
 
-def get_longest_sessions(user_id: str, limit: int = 3) -> List[dict]:
+def get_longest_sessions(user_id: str, limit: int = 5) -> List[dict]:
     """
     1. Call supabase.table("study_sessions")
                .select("*")
