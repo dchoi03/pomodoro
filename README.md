@@ -125,20 +125,11 @@ cd pomodoro-app
 | POST   | `/tasks`              | Create a new task                   |
 | GET    | `/tasks`              | List all tasks for current user     |
 | PUT    | `/tasks/{id}/complete`| Mark a task as completed            |
-| PUT    | `/tasks/{id}`         | Update a task’s name/estimate       |
-| DELETE | `/tasks/{id}`         | Delete a task                       |
 
 _All endpoints that act on tasks require an `Authorization: Bearer <JWT>` header._
 
 ---
 
-## 🤝 Contributing
-
-1. Fork the repo  
-2. Create a feature branch (`git checkout -b feature/XYZ`)  
-3. Commit your changes (`git commit -am "feat: add XYZ"`)  
-4. Push to the branch (`git push origin feature/XYZ`)  
-5. Open a Pull Request  
 
 ---
 
