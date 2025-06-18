@@ -1,15 +1,18 @@
 import React from 'react'
 import PomodoroTimer from '../components/PomodoroTimer'
-import SessionsTable from '../components/SessionsTable'
+import TasksTable from '../components/TasksTable'
 import CreateTask from '../components/CreateTask'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
 function HomePage() {
+  
+  const [refreshFlag, setRefreshFlag] = useState(0)
 
-  const BASE_URL = import.meta.env.VITE_API_URL
-  const [userId,setUserId] = useState(null)
-  const [tasks, setTasks] = useState([]);
+
+    const handleTaskCreated = () => {
+      setRefreshFlag(prev => prev + 1)
+    }
 
   return (
     <div className='flex items-center flex-col h-screen'>
@@ -21,10 +24,10 @@ function HomePage() {
         <PomodoroTimer/>
       </div>
       <div>
-        <CreateTask setTasks={setTasks}/>
+        <CreateTask onTaskCreated={handleTaskCreated}/>
       </div>
       <div className='mt-6'>
-        <SessionsTable tasks={tasks}/>
+        <TasksTable refreshFlag={refreshFlag}/>
       </div>
     </div>
   )

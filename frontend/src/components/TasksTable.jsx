@@ -1,30 +1,30 @@
 import { useState, useEffect } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Checkbox } from "flowbite-react";
 
-function SessionsTable({ tasks }) {
+function TasksTable({ refreshFlag }) {
 
   const BASE_URL = import.meta.env.VITE_API_URL
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     try {
       const token = JSON.parse(localStorage.getItem('access_token'))
-      console.log("Home." , token)
-      console.log(`Calling: ${BASE_URL}/auth/me`)
-      const fetchUserId = async () => {
-        const result = await fetch(`${BASE_URL}/auth/me`, {
+      const fetchTasks = async () => {
+        const result = await fetch(`${BASE_URL}/tasks/list`, {
           method: 'GET',
           headers: {'Authorization': `Bearer ${token}`}
         })
         if (result.ok) {
           const res = await result.json()
-          console.log(res.id)
+          console.log(res)
+          setTasks(res)
         }
       }
-      fetchUserId();
+      fetchTasks();
     } catch (error) {
       console.error(error.message)
     }
-  },[]);
+  },[refreshFlag]);
   
   return (
     <div className="overflow-hidden rounded-xl shadow-lg bg-gray-400 w-full max-w-4xl mx-auto">
@@ -62,4 +62,4 @@ function SessionsTable({ tasks }) {
   );
 }
 
-export default SessionsTable
+export default TasksTable

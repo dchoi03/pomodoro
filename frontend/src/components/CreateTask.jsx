@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button, Checkbox, Label, Modal, ModalBody, ModalHeader, TextInput } from "flowbite-react";
 
-function CreateTask({ setTasks }) {
+function CreateTask({ onTaskCreated }) {
 
   const BASE_URL = import.meta.env.VITE_API_URL
   const [openModal, setOpenModal] = useState(false);
@@ -39,7 +39,7 @@ function CreateTask({ setTasks }) {
       throw new Error(error.detail)
     }
     
-    setTasks(prev => [...prev, newTask]);
+    onTaskCreated()
     onCloseModal(); // Close the modal
   };
 
