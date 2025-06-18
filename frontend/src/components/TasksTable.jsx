@@ -5,10 +5,10 @@ function TasksTable({ refreshFlag }) {
 
   const BASE_URL = import.meta.env.VITE_API_URL
   const [tasks, setTasks] = useState([]);
+  const token = JSON.parse(localStorage.getItem('access_token'))
 
   useEffect(() => {
     try {
-      const token = JSON.parse(localStorage.getItem('access_token'))
       const fetchTasks = async () => {
         const result = await fetch(`${BASE_URL}/tasks/list`, {
           method: 'GET',
@@ -25,6 +25,27 @@ function TasksTable({ refreshFlag }) {
       console.error(error.message)
     }
   },[refreshFlag]);
+
+  const handleComplete = async taskId => {
+    try {
+      const res = await fetch(`${BASE_URL}/tasks/${taskId}/complete`, {
+        method:  "PUT",
+        headers: { "Authorization": `Bearer ${token}` }
+      })
+      if (!res.ok) {
+        throw new Error("Could not mark complete")
+      }
+      setTasks(tasks =>
+        tasks.map(task =>
+          task.id === taskId ? { ...task, completed_task: true } : task
+        )
+      )
+
+      console.log("Task marked complete:", taskId)
+    } catch (err) {
+      console.error(err)
+    }
+  }
   
   return (
     <div className="overflow-hidden rounded-xl shadow-lg bg-gray-400 w-full max-w-4xl mx-auto">
@@ -45,7 +66,7 @@ function TasksTable({ refreshFlag }) {
                   <TableCell>{task.task_name}</TableCell>
                   <TableCell>{task.estimated_pomodoros}</TableCell>
                   <TableCell>{task.duration}</TableCell>
-                  <TableCell><Checkbox/></TableCell>
+                  <TableCell><Checkbox checked={task.completed_task} onChange={() => handleComplete(task.id)}/></TableCell>
               </TableRow>
               ))
             ) : (
